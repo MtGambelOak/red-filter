@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Red Filter",
-  "version": "0.2.1",
-  "description": "Red-only display filter for night vision. Strict (G/B zeroed) or luma-weighted red, with dimming.",
+  "name": "Nighttime Red Light",
+  "version": "0.3.0",
+  "description": "Red-only page filter for winding down at night, with dimming and scheduling by time or sunset/sunrise. Firefox desktop and Android.",
   "browser_specific_settings": {
     "gecko": {
       "id": "red-filter@mtgambeloak.github.io",
@@ -49,7 +49,7 @@
     }
   ],
   "browser_action": {
-    "default_title": "Red Filter",
+    "default_title": "Nighttime Red Light",
     "default_icon": "icons/icon.svg",
     "default_popup": "popup.html"
   },

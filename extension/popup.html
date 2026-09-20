@@ -8,7 +8,14 @@
     h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin: 16px 0 4px; color: #cc2222; }
     label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 8px 0; }
     select, input { accent-color: #ff2a2a; background: #260000; color: #ff2a2a; border: 1px solid #600000; font: inherit; }
-    input[type=range] { width: 140px; }
+    input[type=range] { width: 140px; height: 18px; padding: 0; border: 0; background: transparent; -moz-appearance: none; appearance: none; }
+    input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: #400000; }
+    input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: #b00000; }
+    input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border: 0; border-radius: 50%; background: #ff2a2a; }
+    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+    input[type=checkbox] { -moz-appearance: none; appearance: none; width: 18px; height: 18px; margin: 0; border: 1px solid #ff2a2a; border-radius: 3px; background: #260000; }
+    input[type=checkbox]:checked { background: #ff2a2a; }
+    input:focus, select:focus { outline: 1px solid #ff2a2a; outline-offset: 0; }
     input[type=text], input[type=number] { width: 150px; }
     input[type=number].small { width: 70px; }
     input.time { width: 90px; }

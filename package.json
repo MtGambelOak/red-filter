@@ -1,8 +1,8 @@
 {
   "name": "red-filter",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
-  "description": "Red-only screen filter for night vision (Firefox desktop + Android)",
+  "description": "Red-only screen filter for winding down at night (Firefox desktop + Android)",
   "license": "MIT",
   "scripts": {
     "test": "node test/schedule.test.js",

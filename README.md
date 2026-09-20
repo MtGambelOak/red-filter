@@ -1,6 +1,6 @@
-# Red Filter
+# Nighttime Red Light
 
-A Firefox extension that turns web pages red-only for night vision (astronomy, dark-adapted reading). Works on Firefox desktop and Firefox for Android.
+A Firefox extension that turns web pages red-only, so late-night browsing is easier on your eyes and body clock when winding down for sleep. It also suits anything that calls for keeping your eyes dark-adapted, like stargazing. Works on Firefox desktop and Firefox for Android.
 
 - **Luma red** (default): converts every color to its brightness, shown as red only.
 - **Strict red**: keeps only the red channel, so green and blue output is exactly zero.
