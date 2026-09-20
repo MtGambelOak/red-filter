@@ -33,6 +33,10 @@ Or load `extension/manifest.json` via `about:debugging` > This Firefox > Load Te
 - The OS or display can still add green and blue. Color management on wide-gamut panels converts sRGB red into a mix that includes some green and blue, even though the extension outputs exact red. If a color picker shows non-zero green or blue, check the OS "automatically manage color" and HDR settings.
 - Pages the extension cannot inject into (`about:`, addons.mozilla.org, built-in PDF viewer) need the optional files in `desktop/` on desktop, and are not coverable on Android.
 
+## Inspiration
+
+Inspired by [RedLight](https://github.com/michaelmawhinney/redlight) by Michael Mawhinney, a Windows tray app that applies a red-only display filter. The luma-red and strict-red modes here follow its two modes.
+
 ## License
 
 MIT
