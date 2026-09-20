@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { margin: 0; padding: 12px; min-width: 240px; background: #1a0000; color: #ff2a2a; font: 14px sans-serif; }
+    label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0; }
+    select, input { accent-color: #ff2a2a; background: #260000; color: #ff2a2a; border: 1px solid #600000; }
+    input[type=range] { width: 130px; }
+  </style>
+</head>
+<body>
+  <label>Enabled <input type="checkbox" id="enabled"></label>
+  <label>Mode
+    <select id="mode">
+      <option value="luma">Luma red</option>
+      <option value="strict">Strict red</option>
+    </select>
+  </label>
+  <label>Dim <input type="range" id="dim" min="0.05" max="1" step="0.01"></label>
+  <script src="popup.js"></script>
+</body>
+</html>

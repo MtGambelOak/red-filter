@@ -1,0 +1,8 @@
+/* Red filter for about:, PDF viewer, and extension pages (pages the extension cannot inject into). */
+@-moz-document url-prefix("about:"), url-prefix("moz-extension:"), url-prefix("resource:"), url-prefix("chrome:") {
+  :root::before, :root::after {
+    content: ""; position: fixed; inset: 0; z-index: 2147483647; pointer-events: none;
+  }
+  :root::before { mix-blend-mode: color; background: #fff; }
+  :root::after { mix-blend-mode: multiply; background: #f00; }
+}

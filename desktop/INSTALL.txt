@@ -1,0 +1,5 @@
+Desktop Firefox only (Android has no userChrome/userContent support).
+1. about:config -> set toolkit.legacyUserProfileCustomizations.stylesheets = true
+2. about:support -> "Profile Folder" -> Open Folder
+3. Create a folder named "chrome" there and put userChrome.css and userContent.css inside it
+4. Restart Firefox
