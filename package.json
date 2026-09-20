@@ -1,6 +1,6 @@
 {
   "name": "red-filter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Red-only screen filter for night vision (Firefox desktop + Android)",
   "license": "MIT",

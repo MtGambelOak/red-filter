@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Red Filter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Red-only display filter for night vision. Strict (G/B zeroed) or luma-weighted red, with dimming.",
   "browser_specific_settings": {
     "gecko": {
