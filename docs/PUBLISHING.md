@@ -38,6 +38,15 @@ Listed add-ons are installable from AMO on desktop and Android with no side step
 5. No source-code upload is needed: the extension is plain JavaScript with no build step or minification.
 6. Submit. New listed add-ons go through automated checks plus possible human review; expect anything from hours to a few days. Later versions upload the same way via "Upload New Version".
 
+## Listed submission from the command line
+
+`npm run submit:listed` uploads the current version to the listed channel using `docs/amo-metadata.json` (name, summary, description, category, license, support links, reviewer notes). Notes from doing it:
+
+- It waits for Mozilla and can run for many minutes; check the result with the AMO API if it times out.
+- Tags can't be set: AMO only accepts a fixed list, and none of ours matched.
+- Screenshots go to `POST /api/v5/addons/addon/<id>/previews/` (multipart, `image` file). The caption field must be sent as `caption.en-US`, and the endpoint is heavily rate limited.
+- The add-on slug (the URL name) is set with `PATCH /api/v5/addons/addon/<id>/`.
+
 ## Pre-flight checklist
 
 - `npm run lint` shows zero errors and warnings.

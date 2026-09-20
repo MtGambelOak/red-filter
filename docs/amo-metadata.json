@@ -1,0 +1,37 @@
+{
+  "name": {
+    "en-US": "Nighttime Red Light"
+  },
+  "summary": {
+    "en-US": "Turn web pages red-only so the screen is easier on your eyes and body clock at night. Pick strict or luma red, dim the screen, and schedule it by time or by sunset and sunrise. Collects no data."
+  },
+  "description": {
+    "en-US": "Nighttime Red Light turns every web page red-only, so late-night browsing is easier on your eyes and less likely to get in the way of winding down for sleep. Blue-rich light is the part of screen light most associated with disrupting your body clock, and red is the gentlest color to look at before bed. It is also handy anywhere you want to keep your eyes dark-adapted, such as stargazing.\n\n<b>How it works</b>\n\nMost night-time filters tint the screen, so blue and green light still leak through. This extension multiplies each page by pure red instead, so the green and blue output of page content is exactly zero. It is not a see-through overlay: text stays sharp and contrast is kept.\n\n<b>Features</b>\n\n<ul>\n<li>Two modes: Luma red (the default, which keeps brightness and contrast by showing each color as its brightness in red) and Strict red (keeps only the red channel).</li>\n<li>Dim slider, so you can go as dark as you like.</li>\n<li>Scheduling: turn it on manually, at set start and stop times, or automatically from sunset to sunrise for your city, with optional minute offsets. Search about 70,000 places offline, or enter coordinates.</li>\n<li>Also filters dialogs and popovers, which browsers draw above normal page content.</li>\n<li>Optional: recolors the Firefox toolbar red on desktop.</li>\n<li>Works on Firefox for Android.</li>\n</ul>\n\n<b>Privacy</b>\n\nNo data is collected and the extension makes no network requests. Settings stay in your browser's local storage. Sunrise and sunset are calculated on your device from a bundled place list.\n\n<b>Limits</b>\n\n<ul>\n<li>Only web page content is filtered. Firefox's own interface (on Android: the address bar, tabs and menus) and other apps are not. On desktop the toolbar can be recolored.</li>\n<li>Pages Firefox does not let extensions change (about: pages, addons.mozilla.org, the built-in PDF viewer) are not filtered.</li>\n<li>Your operating system or monitor can still add green and blue light. Color management on wide-gamut displays converts pure sRGB red into a mix that includes some green and blue. If you need the strictest result, check your OS color management settings. For a system-wide filter on Windows, see RedLight.</li>\n</ul>\n\n<b>Credits</b>\n\nInspired by RedLight by Michael Mawhinney (<a href=\"https://github.com/michaelmawhinney/redlight\">https://github.com/michaelmawhinney/redlight</a>). Sunrise and sunset math uses SunCalc (BSD-2-Clause). The place list is derived from GeoNames (CC BY 4.0). Open source under the MIT license: <a href=\"https://github.com/MtGambelOak/red-filter\">https://github.com/MtGambelOak/red-filter</a>"
+  },
+  "categories": {
+    "firefox": [
+      "appearance"
+    ],
+    "android": [
+      "other"
+    ]
+  },
+  "homepage": {
+    "en-US": "https://github.com/MtGambelOak/red-filter"
+  },
+  "support_url": {
+    "en-US": "https://github.com/MtGambelOak/red-filter/issues"
+  },
+  "support_email": {
+    "en-US": "lucas@lpearce.dev"
+  },
+  "is_experimental": false,
+  "requires_payment": false,
+  "version": {
+    "license": "MIT",
+    "approval_notes": "The extension is plain JavaScript with no build step, minification or transpiling, so the uploaded package is the source.\n\n- `extension/lib/suncalc.js` is the unmodified SunCalc 1.9.0 library from npm (BSD-2-Clause, license file alongside).\n- `extension/data/cities.tsv` is generated from GeoNames data by `scripts/build-cities.py`.\n- Permissions: `<all_urls>` is required to apply the filter on every page; `storage` keeps settings; `theme` recolors the Firefox toolbar (desktop, optional in settings); `alarms` re-checks the schedule once a minute so the toolbar theme follows sunset and sunrise.\n- The extension makes no network requests and has no remote code.\n- Full source: https://github.com/MtGambelOak/red-filter\n\nTo test: install, open any web page and it turns red. Open the toolbar popup to switch mode, dim, or set a schedule.",
+    "release_notes": {
+      "en-US": "First public release."
+    }
+  }
+}

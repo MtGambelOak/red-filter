@@ -9,7 +9,8 @@
     "lint": "web-ext lint --source-dir extension",
     "build": "web-ext build --source-dir extension --artifacts-dir web-ext-artifacts --overwrite-dest",
     "start": "web-ext run --source-dir extension",
-    "sign:unlisted": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel unlisted"
+    "sign:unlisted": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel unlisted",
+    "submit:listed": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel listed --amo-metadata docs/amo-metadata.json"
   },
   "devDependencies": {
     "suncalc": "^1.9.0",
