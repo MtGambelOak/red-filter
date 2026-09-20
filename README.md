@@ -38,7 +38,7 @@ Or load `extension/manifest.json` via `about:debugging` > This Firefox > Load Te
 
 ## Inspiration
 
-Inspired by [RedLight](https://github.com/michaelmawhinney/redlight) by Michael Mawhinney, a Windows tray app that applies a red-only display filter. The luma-red and strict-red modes here follow its two modes.
+Inspired by [RedLight](https://github.com/michaelmawhinney/redlight) by Michael Mawhinney, a Windows tray app that applies a red-only display filter. The luma-red and strict-red modes here follow its two modes. RedLight is recommended for Windows, as it operates on a system-wide level. This extension was developed primarily for Android use as most Android-based OSes do not support such system wide tools for truly converting pixels to red, however, web on Android works well enough. For Ubuntu, there is the Night Light GNOME extension.
 
 ## Credits and data
 
