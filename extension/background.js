@@ -1,5 +1,3 @@
-const DEFAULTS = { enabled: true, mode: "luma", dim: 1 };
-
 const RED_THEME = {
   colors: {
     frame: "#1a0000",
@@ -36,19 +34,17 @@ const RED_THEME = {
 async function syncTheme() {
   // browser.theme.update is desktop-only; Firefox for Android has no theme support.
   if (!browser.theme || !browser.theme.update) return;
-  const { enabled } = await browser.storage.local.get(DEFAULTS);
-  if (enabled) await browser.theme.update(RED_THEME);
+  const s = await browser.storage.local.get(RF.DEFAULTS);
+  if (RF.isActive(s) && s.themeBrowser) await browser.theme.update(RED_THEME);
   else await browser.theme.reset();
 }
 
 const injected = new Map();
 
 function topLayerCss(mode, dim) {
-  const row = mode === "strict" ? [1, 0, 0] : [0.299, 0.587, 0.114];
-  const r = row.map((v) => (v * dim).toFixed(4)).join(" ");
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg"><filter id="f" color-interpolation-filters="sRGB">` +
-    `<feColorMatrix type="matrix" values="${r} 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter></svg>`;
+    `<feColorMatrix type="matrix" values="${RF.matrixValues(mode, dim)}"/></filter></svg>`;
   const f = `url("data:image/svg+xml,${encodeURIComponent(svg)}#f")`;
   // Separate rules: one unsupported pseudo-class would otherwise drop the whole list.
   return `:modal { filter: ${f} !important; }\n:popover-open { filter: ${f} !important; }`;
@@ -76,11 +72,15 @@ browser.tabs.onRemoved.addListener((tabId) => {
 
 browser.runtime.onInstalled.addListener(async () => {
   const cur = await browser.storage.local.get(null);
-  await browser.storage.local.set({ ...DEFAULTS, ...cur });
+  await browser.storage.local.set({ ...RF.DEFAULTS, ...cur });
   syncTheme();
 });
 
 browser.runtime.onStartup.addListener(syncTheme);
-browser.storage.onChanged.addListener((changes) => {
-  if ("enabled" in changes) syncTheme();
+browser.storage.onChanged.addListener(syncTheme);
+
+// Scheduled modes flip on and off without any storage change, so re-check every minute.
+browser.alarms.create("theme-sync", { periodInMinutes: 1 });
+browser.alarms.onAlarm.addListener((a) => {
+  if (a.name === "theme-sync") syncTheme();
 });

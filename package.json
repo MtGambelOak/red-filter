@@ -1,16 +1,18 @@
 {
   "name": "red-filter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Red-only screen filter for night vision (Firefox desktop + Android)",
   "license": "MIT",
   "scripts": {
+    "test": "node test/schedule.test.js",
     "lint": "web-ext lint --source-dir extension",
     "build": "web-ext build --source-dir extension --artifacts-dir web-ext-artifacts --overwrite-dest",
     "start": "web-ext run --source-dir extension",
     "sign:unlisted": "web-ext sign --source-dir extension --artifacts-dir web-ext-artifacts --channel unlisted"
   },
   "devDependencies": {
+    "suncalc": "^1.9.0",
     "web-ext": "^8.0.0"
   }
 }

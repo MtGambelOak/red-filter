@@ -5,6 +5,8 @@ A Firefox extension that turns web pages red-only for night vision (astronomy, d
 - **Luma red** (default): converts every color to its brightness, shown as red only.
 - **Strict red**: keeps only the red channel, so green and blue output is exactly zero.
 - **Dim slider** to lower brightness further.
+- **Scheduling**: turn on manually, at set start/stop times, or from sunset to sunrise for a chosen city (offline city list, or enter coordinates), with optional minute offsets.
+- **Toggles**: filter dialogs and popovers, and recolor the Firefox toolbar (desktop only).
 
 It works by laying fixed, click-through `mix-blend-mode` layers over the page (multiplying by pure red zeroes green and blue exactly, with no alpha leakage), plus a matching filter on modal dialogs and popovers, which render above any overlay. On desktop it also recolors the Firefox toolbar via the `theme` API.
 
@@ -20,6 +22,7 @@ It works by laying fixed, click-through `mix-blend-mode` layers over the page (m
 
 ```
 npm install
+npm test         # schedule and sunrise/sunset logic tests
 npm run lint     # web-ext lint
 npm start        # launch Firefox with the extension loaded
 npm run build    # web-ext-artifacts/*.zip
@@ -36,6 +39,11 @@ Or load `extension/manifest.json` via `about:debugging` > This Firefox > Load Te
 ## Inspiration
 
 Inspired by [RedLight](https://github.com/michaelmawhinney/redlight) by Michael Mawhinney, a Windows tray app that applies a red-only display filter. The luma-red and strict-red modes here follow its two modes.
+
+## Credits and data
+
+- Sunrise and sunset math uses [SunCalc](https://github.com/mourner/suncalc) by Vladimir Agafonkin (BSD-2-Clause), vendored in `extension/lib/`.
+- The city list in `extension/data/cities.json` is derived from [GeoNames](https://www.geonames.org) (CC BY 4.0). Regenerate it with `scripts/build-cities.py`. Everything runs offline; the extension makes no network requests.
 
 ## License
 

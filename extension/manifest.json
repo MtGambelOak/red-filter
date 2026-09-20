@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Red Filter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Red-only display filter for night vision. Strict (G/B zeroed) or luma-weighted red, with dimming.",
   "browser_specific_settings": {
     "gecko": {
@@ -20,6 +20,7 @@
   "permissions": [
     "storage",
     "theme",
+    "alarms",
     "<all_urls>"
   ],
   "icons": {
@@ -28,6 +29,8 @@
   },
   "background": {
     "scripts": [
+      "lib/suncalc.js",
+      "common.js",
       "background.js"
     ]
   },
@@ -37,6 +40,8 @@
         "<all_urls>"
       ],
       "js": [
+        "lib/suncalc.js",
+        "common.js",
         "content.js"
       ],
       "run_at": "document_start",
@@ -47,5 +52,9 @@
     "default_title": "Red Filter",
     "default_icon": "icons/icon.svg",
     "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "popup.html",
+    "open_in_tab": true
   }
 }
