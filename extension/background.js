@@ -46,14 +46,15 @@ function topLayerCss(mode, dim) {
     `<svg xmlns="http://www.w3.org/2000/svg"><filter id="f" color-interpolation-filters="sRGB">` +
     `<feColorMatrix type="matrix" values="${RF.matrixValues(mode, dim)}"/></filter></svg>`;
   const f = `url("data:image/svg+xml,${encodeURIComponent(svg)}#f")`;
-  // Separate rules: one unsupported pseudo-class would otherwise drop the whole list.
-  return `:modal { filter: ${f} !important; }\n:popover-open { filter: ${f} !important; }`;
+  // `:modal` also matches fullscreen elements, so target dialogs explicitly. Separate rules: one unsupported
+  // selector would otherwise drop the whole list.
+  return `dialog:modal { filter: ${f} !important; }\n[popover]:popover-open { filter: ${f} !important; }`;
 }
 
-browser.runtime.onMessage.addListener(async (msg, sender) => {
-  if (msg.type !== "top-layer" || !sender.tab) return;
-  const { id: tabId } = sender.tab;
-  const frameId = sender.frameId || 0;
+// Messages for a frame are handled one at a time, in order, so a slow insert can't be overtaken by a later removal.
+const queues = new Map();
+
+async function applyTopLayer(msg, tabId, frameId) {
   const key = `${tabId}:${frameId}`;
   const prev = injected.get(key);
   if (prev) {
@@ -64,11 +65,53 @@ browser.runtime.onMessage.addListener(async (msg, sender) => {
   const code = topLayerCss(msg.mode, msg.dim);
   await browser.tabs.insertCSS(tabId, { code, cssOrigin: "user", frameId }).catch(() => {});
   injected.set(key, code);
+}
+
+browser.runtime.onMessage.addListener((msg, sender) => {
+  if (msg.type !== "top-layer" || !sender.tab) return;
+  const tabId = sender.tab.id;
+  const frameId = sender.frameId || 0;
+  const key = `${tabId}:${frameId}`;
+  const next = (queues.get(key) || Promise.resolve()).then(() => applyTopLayer(msg, tabId, frameId)).catch(() => {});
+  queues.set(key, next);
 });
 
 browser.tabs.onRemoved.addListener((tabId) => {
   for (const k of [...injected.keys()]) if (k.startsWith(`${tabId}:`)) injected.delete(k);
 });
+
+// Hand each new page the current settings synchronously at document_start, so it starts in the right state
+// (no red flash when the filter is off, no unfiltered flash when it is on). Registrations only last as long as
+// this background page, so this runs on every start.
+let bootScript = null;
+let bootQueue = Promise.resolve();
+let bootTimer = null;
+
+async function registerBootNow() {
+  if (!browser.contentScripts || !browser.contentScripts.register) return;
+  const settings = await browser.storage.local.get(RF.DEFAULTS);
+  const code = `(() => { const s = ${JSON.stringify(settings)}; if (window.RF_BOOT_HOOK) window.RF_BOOT_HOOK(s); else window.RF_BOOT = s; })();`;
+  const old = bootScript;
+  bootScript = await browser.contentScripts.register({
+    matches: ["<all_urls>"],
+    js: [{ code }],
+    runAt: "document_start",
+    allFrames: false,
+  });
+  if (old) await old.unregister();
+}
+
+// Registrations run one at a time so they can't overlap and leak, and setting changes are debounced (dragging the
+// dim slider fires many).
+function registerBoot(delay = 0) {
+  clearTimeout(bootTimer);
+  bootTimer = setTimeout(() => {
+    bootQueue = bootQueue.then(registerBootNow).catch(() => {});
+  }, delay);
+}
+
+registerBoot();
+browser.storage.onChanged.addListener(() => registerBoot(250));
 
 browser.runtime.onInstalled.addListener(async () => {
   const cur = await browser.storage.local.get(null);

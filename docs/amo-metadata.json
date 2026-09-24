@@ -31,7 +31,7 @@
     "license": "MIT",
     "approval_notes": "The extension is plain JavaScript with no build step, minification or transpiling, so the uploaded package is the source.\n\n- `extension/lib/suncalc.js` is the unmodified SunCalc 1.9.0 library from npm (BSD-2-Clause, license file alongside).\n- `extension/data/cities.tsv` is generated from GeoNames data by `scripts/build-cities.py`.\n- Permissions: `<all_urls>` is required to apply the filter on every page; `storage` keeps settings; `theme` recolors the Firefox toolbar (desktop, optional in settings); `alarms` re-checks the schedule once a minute so the toolbar theme follows sunset and sunrise.\n- The extension makes no network requests and has no remote code.\n- Full source: https://github.com/MtGambelOak/red-filter\n\nTo test: install, open any web page and it turns red. Open the toolbar popup to switch mode, dim, or set a schedule.",
     "release_notes": {
-      "en-US": "First public release."
+      "en-US": "Fixes: no more red flash while a page loads when the filter is off (including outside your schedule); fullscreen video and elements are no longer filtered or turned red when the filter is off, and are no longer double-filtered when it is on."
     }
   }
 }

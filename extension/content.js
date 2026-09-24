@@ -50,10 +50,14 @@
     document.documentElement.appendChild(red);
   }
 
-  let state = { ...RF.DEFAULTS };
+  // Nothing is drawn until the real settings are known, so a page that should be unfiltered never flashes red.
+  // The background script registers a tiny script that hands us the settings synchronously at document_start;
+  // if that hasn't happened (or isn't supported) we fall back to reading storage.
+  let state = null;
   let timer = null;
 
   function refresh() {
+    if (!state) return;
     apply(state);
     // Scheduled modes re-check periodically; manual mode needs no timer.
     if (state.activation !== "manual" && !timer) timer = setInterval(() => apply(state), 30000);
@@ -63,7 +67,15 @@
     }
   }
 
-  refresh();
+  function boot(settings) {
+    if (state) return;
+    state = { ...RF.DEFAULTS, ...settings };
+    refresh();
+  }
+
+  // Either script may run first, so support both orders.
+  window.RF_BOOT_HOOK = boot;
+  if (window.RF_BOOT) boot(window.RF_BOOT);
 
   browser.storage.local.get(RF.DEFAULTS).then((s) => {
     state = s;
@@ -71,6 +83,7 @@
   });
 
   browser.storage.onChanged.addListener((changes) => {
+    if (!state) return; // the initial storage read will pick up the latest values
     for (const [k, v] of Object.entries(changes)) state[k] = v.newValue;
     refresh();
   });
@@ -80,6 +93,6 @@
     refresh();
   });
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) apply(state);
+    if (!document.hidden && state) apply(state);
   });
 })();
